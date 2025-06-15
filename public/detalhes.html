@@ -4,69 +4,123 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Detalhes do Filme</title>
-  <link rel="stylesheet" href="style.css" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" /> <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
 </head>
 <body class="bg-dark text-white">
   <div class="container py-5">
     <a href="index.html" class="btn btn-danger mb-4">← Voltar</a>
-    <div id="detalhes-filme" class="bg-secondary p-4 rounded shadow-sm"></div>
+    <div id="detalhes-filme" class="bg-secondary p-4 rounded shadow-sm">
+      </div>
   </div>
 
- <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const filmeJSON = localStorage.getItem('filmeSelecionado');
-    const container = document.getElementById('detalhes-filme');
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const filmeId = localStorage.getItem('filmeSelecionadoId'); // Pega o ID
+      const container = document.getElementById('detalhes-filme');
 
-    if (!filmeJSON) {
-      container.innerHTML = "<p>ID do filme não encontrado.</p>";
-      return;
-    }
+      if (!filmeId) {
+        container.innerHTML = "<p class='text-danger'>ID do filme não encontrado. Retorne à página inicial.</p>";
+        return;
+      }
 
-    const filme = JSON.parse(filmeJSON);
+      try {
+        const response = await fetch(`http://localhost:3000/filmes/${filmeId}`);
+        if (!response.ok) {
+          throw new Error(`Erro HTTP! status: ${response.status}`);
+        }
+        const filme = await response.json();
 
-    container.innerHTML = `
-      <img src="${filme.imagem_pincipal}" alt="${filme.titulo}" class="img-fluid rounded mb-3">
-      <div class="filme-info">
-        <h2>${filme.titulo}</h2>
-        <p><strong>Descrição:</strong> <input class="form-control" id="descricao" value="${filme.descricao}"></p>
-        <p><strong>Conteúdo:</strong> <input class="form-control" id="conteudo" value="${filme.conteudo}"></p>
-        <p><strong>Categoria:</strong> <input class="form-control" id="categoria" value="${filme.categoria}"></p>
-        <p><strong>Autor:</strong> <input class="form-control" id="autor" value="${filme.autor}"></p>
-        <p><strong>Data:</strong> <input class="form-control" id="data" value="${filme.data}"></p>
-        <button class="btn btn-success mt-3" onclick="atualizarFilme(${filme.id})">Atualizar</button>
-        <button class="btn btn-outline-danger mt-3 ms-2" onclick="removerFilme(${filme.id})">Remover</button>
-      </div>
-    `;
-  });
+        container.innerHTML = `
+          <img src="${filme.imagem_pincipal}" alt="${filme.titulo}" class="img-fluid rounded mb-3">
+          <div class="filme-info">
+            <h2>${filme.titulo}</h2>
+            <p><strong>Descrição:</strong> <input class="form-control" id="descricao" value="${filme.descricao}"></p>
+            <p><strong>Conteúdo:</strong> <input class="form-control" id="conteudo" value="${filme.conteudo}"></p>
+            <p><strong>Categoria:</strong> <input class="form-control" id="categoria" value="${filme.categoria}"></p>
+            <p><strong>Autor:</strong> <input class="form-control" id="autor" value="${filme.autor}"></p>
+            <p><strong>Data:</strong> <input type="date" class="form-control" id="data" value="${filme.data}"></p>
+            
+            ${filme.imagens_complementares && filme.imagens_complementares.length > 0 ? `
+              <h4 class="mt-4">Imagens Complementares</h4>
+              <div class="row g-3 mt-2">
+                ${filme.imagens_complementares.map(img => `
+                  <div class="col-12 col-sm-6 col-md-4">
+                    <img src="${img.src}" alt="${img.descricao}" class="img-fluid rounded w-100">
+                    <p class="text-light mt-2">${img.descricao}</p>
+                  </div>
+                `).join('')}
+              </div>
+            ` : ''}
 
-  function atualizarFilme(id) {
-    const descricao = document.getElementById("descricao").value;
-    const conteudo = document.getElementById("conteudo").value;
-    const categoria = document.getElementById("categoria").value;
-    const autor = document.getElementById("autor").value;
-    const data = document.getElementById("data").value;
-
-    fetch(`http://localhost:3000/filmes/${id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ descricao, conteudo, categoria, autor, data, imagem_pincipal: "" })
-    }).then(() => {
-      alert("Filme atualizado!");
-      location.reload();
+            <button class="btn btn-success mt-3" onclick="atualizarFilme(${filme.id})">Atualizar</button>
+            <button class="btn btn-outline-danger mt-3 ms-2" onclick="removerFilme(${filme.id})">Remover</button>
+          </div>
+        `;
+      } catch (error) {
+        console.error("Erro ao carregar detalhes do filme:", error);
+        container.innerHTML = "<p class='text-danger'>Não foi possível carregar os detalhes do filme. Verifique se o JSON Server está rodando.</p>";
+      }
     });
-  }
 
-  function removerFilme(id) {
-    if (confirm("Deseja realmente excluir este filme?")) {
-      fetch(`http://localhost:3000/filmes/${id}`, {
-        method: "DELETE"
-      }).then(() => {
-        alert("Filme removido.");
-        window.location.href = "index.html";
-      });
+    async function atualizarFilme(id) {
+      const descricao = document.getElementById("descricao").value;
+      const conteudo = document.getElementById("conteudo").value;
+      const categoria = document.getElementById("categoria").value;
+      const autor = document.getElementById("autor").value;
+      const data = document.getElementById("data").value;
+
+      try {
+          // Para PUT, o JSON Server espera o objeto completo.
+          // Primeiro, pegamos o objeto original para manter campos que não são editáveis aqui.
+          const responseOriginal = await fetch(`http://localhost:3000/filmes/${id}`);
+          if (!responseOriginal.ok) {
+              throw new Error(`Erro ao buscar filme original! status: ${responseOriginal.status}`);
+          }
+          const filmeOriginal = await responseOriginal.json();
+
+          const filmeAtualizado = {
+              ...filmeOriginal, // Mantém todos os dados originais
+              descricao: descricao, // Atualiza os campos do formulário
+              conteudo: conteudo,
+              categoria: categoria,
+              autor: autor,
+              data: data
+          };
+
+          const response = await fetch(`http://localhost:3000/filmes/${id}`, {
+              method: "PUT",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(filmeAtualizado)
+          });
+
+          if (!response.ok) {
+              throw new Error(`Erro ao atualizar! status: ${response.status}`);
+          }
+          alert("Filme atualizado com sucesso!");
+          location.reload(); // Recarrega a página para mostrar as atualizações
+      } catch (error) {
+          console.error("Erro ao atualizar filme:", error);
+          alert("Erro ao atualizar filme. Verifique o console para mais detalhes.");
+      }
     }
-  }
-</script>
+
+    async function removerFilme(id) {
+      if (confirm("Deseja realmente excluir este filme? Esta ação não pode ser desfeita.")) {
+        try {
+          const response = await fetch(`http://localhost:3000/filmes/${id}`, {
+            method: "DELETE"
+          });
+          if (!response.ok) {
+            throw new Error(`Erro ao remover! status: ${response.status}`);
+          }
+          alert("Filme removido com sucesso!");
+          window.location.href = "index.html"; // Redireciona para a home após a remoção
+        } catch (error) {
+          console.error("Erro ao remover filme:", error);
+          alert("Erro ao remover filme. Verifique o console para mais detalhes.");
+        }
+      }
+    }
+  </script>
 </body>
 </html>

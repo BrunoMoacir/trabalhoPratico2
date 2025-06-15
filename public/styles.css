@@ -1,4 +1,4 @@
-/* Reset e configurações gerais */
+/* --- Reset e Tipografia Base --- */
 * {
     margin: 0;
     padding: 0;
@@ -8,229 +8,741 @@
 }
 
 body {
-    background: linear-gradient(135deg, #000000, #1a1a1a);
+    background: linear-gradient(135deg, #0a0a0a, #1a1a1a, #0a0a0a);
+    background-size: cover;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
-    min-height: 100vh;
-    background-size: cover;
-    backdrop-filter: blur(5px);
-    padding-top: 70px;
+    padding-top: 80px; /* Espaçamento para o cabeçalho fixo */
+    overflow-x: hidden; /* Evita rolagem horizontal indesejada */
 }
 
-/* Cabeçalho e menu */
+/* --- Cabeçalho (Navbar) --- */
 header {
     width: 100%;
-    background-color: rgba(30, 30, 30, 0.9);
-    padding: 20px 0;
-    text-align: center;
-    box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.2);
+    background-color: rgba(0, 0, 0, 0.9);
+    padding: 10px 0;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
     z-index: 1000;
     position: fixed;
     top: 0;
+    left: 0;
 }
-.custom-footer {
-    background-color: #1e1e1e;
+
+.navbar-brand img {
+    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.3));
+}
+
+.navbar-nav .nav-link {
+    color: white !important;
+    font-weight: 500;
+    transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link.active {
+    color: #ff4c4c !important;
+    transform: translateY(-2px);
+}
+
+.navbar-toggler {
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.8%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+/* Formulário de busca na navbar */
+.navbar .d-flex .form-control {
+    background-color: #333;
+    border: 1px solid #555;
     color: white;
+}
+
+.navbar .d-flex .form-control::placeholder {
+    color: #ccc;
+}
+
+/* --- Botões Gerais --- */
+.btn-danger {
+    font-weight: bold;
+    background-color: #e50914; /* Vermelho Netflix/ação */
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    transition: 0.3s ease;
+    box-shadow: 0 0 10px rgba(229, 9, 20, 0.5);
+    color: white;
+}
+
+.btn-danger:hover {
+    background-color: #ff0000;
+    box-shadow: 0 0 15px rgba(255, 0, 0, 0.7);
+    transform: translateY(-2px);
+}
+
+.btn-success {
+    background-color: #28a745; /* Verde para sucesso */
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    transition: 0.3s ease;
+    color: white;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+    transform: translateY(-2px);
+}
+
+.btn-outline-danger {
+    border-color: #e50914;
+    color: #e50914;
+    transition: 0.3s ease;
+}
+
+.btn-outline-danger:hover {
+    background-color: #e50914;
+    color: white;
+    box-shadow: 0 0 10px rgba(229, 9, 20, 0.5);
+    transform: translateY(-2px);
+}
+
+/* --- Conteúdo Principal (main) --- */
+main {
+    width: 100%;
+    max-width: 1200px;
+    padding: 20px;
+    flex-grow: 1;
+}
+
+/* --- Carrossel de Destaques --- */
+#carouselExampleCaptions {
+    width: 100%;
+    margin-bottom: 50px;
+    max-width: 1000px;
+}
+
+.carousel-inner {
+    border-radius: 12px;
+    overflow: hidden;
+    height: 450px; /* Altura fixa para o inner, para controlar o tamanho total */
+    display: flex;
+    align-items: stretch;
+    background-color: #000;
+}
+
+.carousel-item {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.carousel-item img {
+    width: 100%;
+    object-fit: contain; /* Mantido 'contain' para não cortar pôsteres */
+    max-height: 450px;
+    filter: brightness(0.7);
+    transition: filter 0.5s ease;
+}
+
+.carousel-item:hover img {
+    filter: brightness(0.9);
+}
+
+.carousel-caption {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 15px 25px;
+    border-radius: 8px;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 600px;
+    text-align: center;
+    z-index: 2;
+}
+
+.carousel-caption h5 {
+    font-size: 2rem;
+    color: #fff;
+    margin-bottom: 8px;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+}
+
+.carousel-caption p {
+    font-size: 1rem;
+    color: #ccc;
+    margin-bottom: 0;
+}
+
+/* Controles do carrossel */
+.carousel-control-prev,
+.carousel-control-next {
+    width: 8%;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+}
+
+.carousel-control-prev:hover,
+.carousel-control-next:hover {
+    opacity: 1;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    padding: 18px;
+}
+
+/* --- Lista de Filmes (Cards) --- */
+#filmesLista {
+    display: grid;
+    /* Adaptação para telas pequenas (1 coluna), médias (2-3 colunas) e grandes (3-4 colunas) */
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* Mínimo 220px para cada card */
+    gap: 30px; /* Espaçamento entre os cards */
+    padding: 20px 0;
+    /* Removido justify-items: center; pois o width: 100% no .card já o faz preencher */
+}
+
+/* Estilo para o novo wrapper que substitui .col-md-4 */
+.movie-card-wrapper {
+    /* Não precisamos de display:flex ou altura específica aqui,
+       o grid no #filmesLista já gerencia as colunas. */
+    /* A mb-4 já é tratada pela classe Bootstrap mb-4 */
+    width: 100%; /* Garante que o wrapper ocupe a largura total da célula do grid */
+}
+
+.card {
+    background-color: rgba(30, 30, 30, 0.95);
+    border: none;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    /* Removido height: 100% no .card pois o flex no movie-card-wrapper não é mais necessário,
+       e o card agora se auto-ajusta no grid. */
+    width: 100%; /* Garante que o card ocupe a largura total de seu wrapper */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 15px 30px rgba(229, 9, 20, 0.4);
+}
+
+.card-img-top {
+    width: 100%;
+    height: 380px; /* Altura fixa para padronização visual dos pôsteres */
+    object-fit: cover; /* Preenche o espaço, cortando se necessário */
+    object-position: center top; /* Foca na parte superior do pôster */
+    border-bottom: 3px solid #e50914;
+}
+
+.card-body {
+    padding: 15px;
+    flex-grow: 1; /* Permite que o corpo do card cresça para ocupar espaço */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Espaça título, descrição e botão */
+    line-height: 1.4;
+    text-align: left; /* Garante que o texto esteja alinhado à esquerda */
+    height: auto; /* Permite que a altura do body se ajuste ao conteúdo */
+    min-height: 120px; /* Garante uma altura mínima para o card-body */
+}
+
+.card-title {
+    font-size: 1.3rem;
+    color: #ff4c4c;
+    margin-bottom: 5px;
+    text-shadow: 0 0 5px rgba(255, 0, 0, 0.6);
+    min-height: 3.5rem; /* Altura mínima para 2 linhas de texto */
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Limita a 2 linhas */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-word; /* Para quebrar palavras longas */
+}
+
+.card-text {
+    font-size: 0.85rem;
+    color: #ccc;
+    margin-bottom: 15px;
+    line-height: 1.4;
+    flex-grow: 1; /* Permite que a descrição ocupe o espaço disponível */
+    display: -webkit-box;
+    -webkit-line-clamp: 4; /* Limita a 4 linhas */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-word;
+}
+
+/* Estilo para o botão "Ver detalhes" dentro do card */
+.card-body .btn.btn-danger {
+    margin-top: auto; /* Empurra o botão para a parte inferior do card-body */
+    display: block; /* Ocupa a largura total */
+    width: 100%; /* Garante que o botão ocupe 100% da largura disponível */
+    text-align: center; /* Centraliza o texto no botão */
+    white-space: normal; /* Permite que o texto do botão quebre linha se necessário */
+}
+
+
+/* --- Página de Detalhes do Filme --- */
+#detalhes-filme {
+    background-color: rgba(30, 30, 30, 0.98);
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.7), 0 0 20px rgba(255, 0, 0, 0.3);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    align-items: flex-start;
+    max-width: 900px;
+    margin: 50px auto;
+}
+
+#detalhes-filme img {
+    width: 100%;
+    max-width: 350px;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 0 25px rgba(255, 255, 255, 0.15);
+    transition: transform 0.3s ease;
+    object-fit: cover;
+}
+
+#detalhes-filme img:hover {
+    transform: scale(1.03);
+}
+
+.filme-info {
+    flex: 1;
+    min-width: 300px;
+}
+
+.filme-info h2 {
+    font-size: 2.8rem;
+    color: #ff4c4c;
+    margin-bottom: 20px;
+    text-shadow: 0 0 15px rgba(255, 0, 0, 0.8);
+    font-weight: 700;
+}
+
+.filme-info p {
+    font-size: 1rem;
+    line-height: 1.7;
+    margin-bottom: 12px;
+}
+
+.filme-info p strong {
+    color: #ff6b6b;
+    font-weight: 600;
+}
+
+/* Campos de input no detalhe (para edição) */
+#detalhes-filme .form-control {
+    background-color: #333;
+    border: 1px solid #555;
+    color: white;
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+#detalhes-filme .form-control:focus {
+    background-color: #444;
+    border-color: #ff4c4c;
+    box-shadow: 0 0 0 0.25rem rgba(255, 76, 76, 0.25);
+}
+
+/* Imagens Complementares na página de detalhes */
+.filme-info h4 {
+    color: #ff4c4c;
+    margin-top: 30px;
+    margin-bottom: 15px;
+    font-size: 1.6rem;
+    text-shadow: 0 0 8px rgba(255, 0, 0, 0.4);
+}
+
+.filme-info .row.g-3 img {
+    height: 150px;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+}
+
+.filme-info .row.g-3 p {
+    font-size: 0.85rem;
+    text-align: center;
+    color: #aaa;
+    margin-top: 5px;
+}
+
+/* --- Formulário de Cadastro --- */
+#formCadastroFilme {
+    background-color: rgba(30, 30, 30, 0.98);
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.7), 0 0 20px rgba(255, 0, 0, 0.3);
+    max-width: 700px;
+    margin: 50px auto;
+}
+
+#formCadastroFilme .form-label {
+    font-weight: 600;
+    color: #ff6b6b;
+    margin-bottom: 8px;
+}
+
+#formCadastroFilme .form-control {
+    background-color: #333;
+    border: 1px solid #555;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+}
+
+#formCadastroFilme .form-control:focus {
+    background-color: #444;
+    border-color: #ff4c4c;
+    box-shadow: 0 0 0 0.25rem rgba(255, 76, 76, 0.25);
+}
+
+#formCadastroFilme textarea.form-control {
+    min-height: 100px;
+    resize: vertical;
+}
+
+#formCadastroFilme .form-check-label {
+    color: #ccc;
+}
+
+/* --- Gráfico de Gêneros --- */
+.chart-container {
+    width: 90%;
+    max-width: 800px;
+    margin: 50px auto;
+    background-color: rgba(30, 30, 30, 0.95);
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 0 30px rgba(255, 0, 0, 0.2), inset 0 0 10px rgba(255, 0, 0, 0.1);
+    position: relative;
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#generoChart {
+    max-height: 500px;
+}
+
+#chartError {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+
+/* --- Rodapé (Footer) --- */
+.custom-footer {
+    width: 100%;
+    background-color: #1e1e1e;
+    color: #eee;
     padding: 40px 20px;
     font-family: 'Poppins', sans-serif;
-    margin-top: 50px;
-    box-shadow: 0px -4px 10px rgba(255, 255, 255, 0.2);
-  }
-  
-  .footer-container {
+    margin-top: auto;
+    box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.5);
+    border-top: 3px solid #e50914;
+}
+
+.footer-container {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     flex-wrap: wrap;
     max-width: 1200px;
     margin: auto;
     gap: 30px;
-  }
-  
-  .footer-section {
+    text-align: left;
+}
+
+.footer-section {
     flex: 1;
-    min-width: 250px;
-  }
-  
-  .footer-section h4 {
-    border-bottom: 2px solid white;
+    min-width: 220px;
+    padding: 10px;
+}
+
+.footer-section h4 {
+    border-bottom: 2px solid #ff4c4c;
     padding-bottom: 8px;
     margin-bottom: 15px;
-  }
-  
-  .linha-cinza {
-    height: 12px;
-    background-color: #b3b3b3;
-    border-radius: 4px;
-    margin: 8px 0;
-  }
-  
-  .redes-sociais a img {
-    width: 30px;
-    margin-right: 10px;
-    transition: transform 0.3s;
-  }
-  
-  .redes-sociais a img:hover {
-    transform: scale(1.1);
-  }
-  
-  /* Responsivo */
-  @media (max-width: 768px) {
-    .footer-container {
-      flex-direction: column;
-      align-items: center;
-    }
-  
-    .footer-section {
-      text-align: center;
-    }
-  
-    .redes-sociais a img {
-      margin: 10px;
-    }
-  }
+    color: #ff4c4c;
+    font-weight: 600;
+}
 
-.menuprincipal ul {
-    list-style: none;
+.footer-section p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #ccc;
+}
+
+.redes-sociais {
     display: flex;
-    justify-content: center;
-    gap: 30px;
+    gap: 15px;
+    margin-top: 15px;
 }
 
-.menuprincipal ul li a {
-    text-decoration: none;
-    font-size: 18px;
-    font-weight: bold;
-    padding: 12px 18px;
-    border-radius: 5px;
-    background: rgba(255, 0, 0, 0.8);
-    transition: 0.3s;
-    text-shadow: 0px 0px 10px rgba(255, 0, 0, 0.8);
+.redes-sociais a img {
+    width: 35px;
+    height: 35px;
+    object-fit: contain;
+    border-radius: 50%;
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.menuprincipal ul li a:hover {
-    background: rgba(255, 0, 0, 1);
-    box-shadow: 0px 0px 10px rgba(255, 0, 0, 0.7);
-}
-
-/* Área principal (Filmes) */
-main {
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 25px;
-    padding: 40px 0;
-}
-.filmesLista{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 25px;
-    padding: 40px 0;
-    width: 1600px;
+.redes-sociais a img:hover {
+    transform: scale(1.2);
+    box-shadow: 0 0 15px rgba(255, 0, 0, 0.6);
 }
 
 
-
-.carousel-caption {
-    position: static !important; /* Tira o absolute */
-    background-color: rgba(0, 0, 0, 0.5); 
-    padding: 1rem;
-    text-align: center;
-    color: white;
-  }
-  .carousel-inner {
-    height: auto !important;
-  }
-article img {
-    width: 100%;
-    height: auto;
-    border-radius: 12px;
-    transition: 0.3s;
-}
-
-article img:hover {
-    filter: brightness(70%);
-}
-article:hover {
-    transform: scale(1.05);
-    box-shadow: 0px 6px 15px rgba(255, 255, 255, 0.3);
-    
-}
-article p {
-    font-size: 16px;
-    font-weight: bold;
-}
-
-
-
-
-footer {
-    width: 100%;
-    background-color: rgba(30, 30, 30, 0.9);
-    text-align: center;
-    padding: 15px 0;
-    margin-top: 20px;
-    box-shadow: 0px -4px 10px rgba(255, 255, 255, 0.2);
-}
-.grid-container {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); 
-    gap: 20px;
-  }
-  .navbar-dark .navbar-nav .nav-link {
-    color: white !important;
-  }
-  
-  @media (max-width: 768px) {
-    .filme {
-        width: 100%;
-        text-align: center;
+/* --- Responsividade Geral --- */
+@media (max-width: 992px) {
+    .navbar-expand-lg .navbar-collapse {
+        justify-content: center;
     }
-
-    .filme img {
+    .navbar .d-flex {
         width: 80%;
+        margin: 15px auto 0;
     }
-    body {
-        padding-top: 100px; /* Garante que o conteúdo não fique atrás do header */
-      }
-    
-      .navbar-nav {
+    #filmesLista {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+    }
+    .carousel-inner {
+        height: 350px;
+    }
+    .carousel-item img {
+        max-height: 350px;
+    }
+    .carousel-caption h5 {
+        font-size: 1.6rem;
+    }
+    .carousel-caption p {
+        font-size: 0.85rem;
+    }
+    #detalhes-filme {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        padding: 30px;
+    }
+    #detalhes-filme img {
+        max-width: 250px;
+    }
+    .filme-info {
         text-align: center;
-      }
-    
-      .navbar-nav .nav-item {
-        margin-bottom: 10px;
-      }
+        min-width: unset;
+    }
+    .filme-info h2 {
+        font-size: 2.2rem;
+        margin-bottom: 15px;
+    }
+    .filme-info p {
+        font-size: 0.9rem;
+    }
+    .filme-info .row.g-3 img {
+        height: 120px;
+    }
+    .footer-container {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    .footer-section {
+        min-width: unset;
+        width: 100%;
+    }
+    .redes-sociais {
+        justify-content: center;
     }
 }
 
-  @media (max-width: 480px) {
-    .grid-container {
-      grid-template-columns: 1fr; 
+@media (max-width: 576px) {
+    body {
+        padding-top: 60px;
     }
-  }
-  .carousel img {
-    width: 100%;
-    height: 300px; 
-    object-fit: cover;
-  }
-  .carousel {
-    display: flex;
-    overflow-x: auto;
-    gap: 20px;
+    #carouselExampleCaptions {
+        margin-bottom: 20px;
+    }
+    .carousel-inner {
+        height: 280px;
+    }
+    .carousel-item img {
+        max-height: 280px;
+    }
+    .carousel-caption {
+        padding: 8px;
+        bottom: 5px;
+    }
+    .carousel-caption h5 {
+        font-size: 1.1rem;
+    }
+    .carousel-caption p {
+        font-size: 0.7rem;
+    }
+    #filmesLista {
+        grid-template-columns: 1fr;
+        padding: 10px;
+        gap: 20px;
+    }
+    .card-img-top {
+        height: 300px;
+        object-position: center;
+    }
+    .card-title {
+        font-size: 1.1rem;
+    }
+    .card-text {
+        font-size: 0.75rem;
+        -webkit-line-clamp: 3;
+    }
+    #detalhes-filme {
+        padding: 15px;
+        margin: 15px auto;
+    }
+    #detalhes-filme img {
+        max-width: 100%;
+    }
+    .filme-info h2 {
+        font-size: 1.6rem;
+    }
+    .filme-info p {
+        font-size: 0.8rem;
+    }
+    .filme-info .row.g-3 img {
+        height: 90px;
+    }
+    #formCadastroFilme {
+        padding: 15px;
+        margin: 15px auto;
+    }
+    .chart-container {
+        padding: 15px;
+        margin: 20px auto;
+        min-height: 250px;
+    }
+    .footer-section p {
+        font-size: 0.85rem;
+    }
+    .redes-sociais a img {
+        width: 30px;
+        height: 30px;
+    }
+}
+/* ... (Mantenha todo o seu CSS anterior) ... */
+
+/* Adicione esta regra ao seu .card (se já não tiver) para posicionamento absoluto do ícone */
+.card {
+    /* ... seus estilos existentes ... */
+    position: relative; /* ADICIONADO: Essencial para posicionar o ícone de favorito */
+}
+
+
+/* ESTILOS DO ÍCONE DE FAVORITO */
+.favorite-icon {
+    cursor: pointer;
+    font-size: 1.8rem; /* Tamanho da estrela */
+    position: absolute; /* Posicionamento absoluto dentro do card */
+    top: 10px; /* Distância do topo */
+    right: 10px; /* Distância da direita */
+    z-index: 10; /* Garante que fique acima de outros elementos */
+    color: rgba(255, 255, 255, 0.7); /* Cor padrão para "não favorito" (transparente) */
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.5); /* Sombra para destacar */
+    transition: color 0.2s ease, transform 0.2s ease; /* Transição suave */
+}
+
+.favorite-icon[data-is-favorito="true"] {
+    color: #FFD700; /* Cor dourada para "favorito" */
+    text-shadow: 0 0 8px rgba(255, 215, 0, 0.8); /* Sombra mais vibrante */
+}
+
+.favorite-icon:hover {
+    transform: scale(1.2); /* Efeito de zoom ao passar o mouse */
+    color: #FFD700; /* Garante que fique dourado ao passar o mouse mesmo se não for favorito */
+}
+
+/* ... (Mantenha todo o seu CSS restante) ... */
+/* --- Estilos Específicos para a Página de Favoritos --- */
+#filmesFavoritosLista {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Ajuste o minmax conforme necessário */
+    gap: 20px; /* Espaçamento entre os cards */
     padding: 20px;
-  }
-  .carousel-item img {
-    object-fit: cover;
-    height: 500px; 
 }
 
+#filmesFavoritosLista .movie-card-wrapper {
+    width: 100%;
+}
 
-  .carousel-inner {
-    height: 500px; 
-  }
-  
-  
+#filmesFavoritosLista .card {
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* Garante que os cards tenham a mesma altura */
+}
+
+#filmesFavoritosLista .card-img-top {
+    height: 250px; /* Altura fixa para as imagens na lista de favoritos */
+    object-fit: cover;
+    border-bottom: 3px solid #e50914;
+}
+
+#filmesFavoritosLista .card-body {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+#filmesFavoritosLista .card-title {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    min-height: auto; /* Permite ajustar a altura do título */
+    /* Garante que o título não vaze e use as reticências */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#filmesFavoritosLista .card-text {
+    font-size: 0.8rem;
+    margin-bottom: 1rem;
+    flex-grow: 1; /* Permite que o texto preencha o espaço restante */
+    /* Garante que a descrição não vaze e use as reticências */
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* Limita o número de linhas na descrição */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#filmesFavoritosLista .card-body .btn.btn-danger {
+    margin-top: auto; /* Empurra o botão para baixo */
+}

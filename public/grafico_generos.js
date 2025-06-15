@@ -1,14 +1,33 @@
-// public/grafico_generos.js
+document.addEventListener('DOMContentLoaded', async () => {
+    let filmes = [];
+    const chartErrorElement = document.getElementById('chartError');
+    const generoChartCanvas = document.getElementById('generoChart');
 
-document.addEventListener('DOMContentLoaded', () => {
-    // Verifica se filmesFamosos está disponível (vem de app.js)
-    if (typeof filmesFamosos !== 'undefined' && filmesFamosos.filmes_famosos) {
-        const filmes = filmesFamosos.filmes_famosos;
+    try {
+        const response = await fetch('http://localhost:3000/filmes');
+        if (!response.ok) {
+            throw new Error(`Erro HTTP! status: ${response.status}`);
+        }
+        filmes = await response.json();
+    } catch (error) {
+        console.error("Erro ao carregar filmes para o gráfico:", error);
+        if (chartErrorElement) {
+            chartErrorElement.style.display = 'block'; // Mostra a mensagem de erro
+        }
+        if (generoChartCanvas) {
+            generoChartCanvas.style.display = 'none'; // Esconde o canvas do gráfico
+        }
+        return; // Impede a criação do gráfico se os dados não puderem ser carregados
+    }
+
+    if (filmes && filmes.length > 0) {
         const generosCount = {};
 
         // Processa os filmes para contar cada gênero
         filmes.forEach(filme => {
-            const generos = filme.categoria.split(',').map(genero => genero.trim());
+            // Garante que a categoria é uma string antes de split
+            const categoriasStr = String(filme.categoria || '');
+            const generos = categoriasStr.split(',').map(genero => genero.trim());
             generos.forEach(genero => {
                 if (genero) { // Garante que não há gêneros vazios
                     generosCount[genero] = (generosCount[genero] || 0) + 1;
@@ -35,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
             borderColors.push(color.replace('0.7', '1')); // Borda mais sólida
         }
 
-        const ctx = document.getElementById('generoChart').getContext('2d');
+        const ctx = generoChartCanvas.getContext('2d');
 
         new Chart(ctx, {
             type: 'pie',
@@ -51,6 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
             },
             options: {
                 responsive: true,
+                maintainAspectRatio: false, // Permite que o gráfico se ajuste melhor ao container
                 plugins: {
                     legend: {
                         position: 'top',
@@ -67,6 +87,12 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     } else {
-        console.error("Dados de filmes não encontrados. Verifique se 'app.js' está carregado corretamente antes de 'grafico_generos.js'.");
+        if (chartErrorElement) {
+            chartErrorElement.textContent = "Nenhum dado de filme disponível para gerar o gráfico.";
+            chartErrorElement.style.display = 'block';
+        }
+        if (generoChartCanvas) {
+            generoChartCanvas.style.display = 'none';
+        }
     }
 });

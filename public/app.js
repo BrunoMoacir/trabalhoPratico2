@@ -1,198 +1,141 @@
-const filmesFamosos = {
-  "filmes_famosos": [
-    {
-      "id": 1,
-      "titulo": "Before Sunrise",
-      "descricao": "Dois estranhos se conhecem em um trem e passam a noite caminhando por Viena.",
-      "conteudo": "Jesse e Céline compartilham uma noite mágica em Viena, conversando sobre a vida, o amor e o acaso.",
-      "categoria": "Romance, Drama",
-      "autor": "Richard Linklater",
-      "destaque": false,
-      "data": "1995-01-27",
-      "imagem_pincipal": "https://upload.wikimedia.org/wikipedia/en/d/da/Before_Sunrise_poster.jpg",
-      "imagens_complementares": [
-        {
-          "id": 1,
-          "src": "https://upload.wikimedia.org/wikipedia/en/d/da/Before_Sunrise_poster.jpg",
-          "descricao": "Pôster oficial"
+// app.js
+
+async function carregarFilmes(searchTerm = '') {
+    const lista = document.getElementById("filmesLista");
+    lista.innerHTML = ''; // Limpar lista existente
+
+    const apiUrl = 'http://localhost:3000/filmes'; // Sempre busca a lista completa do servidor
+
+    console.log(`Buscando filmes da API: ${apiUrl}`); // DEBUG: Sempre busca tudo do servidor
+
+    try {
+        const response = await fetch(apiUrl);
+        if (!response.ok) {
+            throw new Error(`Erro HTTP! status: ${response.status}`);
         }
-      ]
-    },
-    {
-      "id": 2,
-      "titulo": "Moonlight",
-      "descricao": "Um jovem negro enfrenta desafios de identidade e sexualidade em três fases da vida.",
-      "conteudo": "A vida de Chiron, da infância à vida adulta, navegando pelas complexidades da identidade e aceitação.",
-      "categoria": "Drama",
-      "autor": "Barry Jenkins",
-      "destaque": true,
-      "data": "2016-10-21",
-      "imagem_pincipal": "https://upload.wikimedia.org/wikipedia/en/8/84/Moonlight_%282016_film%29.png",
-      "imagens_complementares": [
-        {
-          "id": 1,
-          "src": "https://upload.wikimedia.org/wikipedia/en/8/84/Moonlight_%282016_film%29.png",
-          "descricao": "Pôster oficial"
+        let filmes = await response.json(); // Recebe todos os filmes do servidor
+
+        console.log(`Total de filmes recebidos do servidor: ${filmes.length}`); // DEBUG
+
+        // FILTRAGEM NO LADO DO CLIENTE
+        if (searchTerm) {
+            const lowerCaseSearchTerm = searchTerm.toLowerCase();
+            filmes = filmes.filter(filme => {
+                return (filme.titulo && filme.titulo.toLowerCase().includes(lowerCaseSearchTerm)) ||
+                       (filme.descricao && filme.descricao.toLowerCase().includes(lowerCaseSearchTerm)) ||
+                       (filme.categoria && filme.categoria.toLowerCase().includes(lowerCaseSearchTerm));
+            });
+            console.log(`Filmes filtrados pelo termo "${searchTerm}". Total após filtro: ${filmes.length}`); // DEBUG
         }
-      ]
-    },
-    {
-      "id": 3,
-      "titulo": "Hereditário",
-      "descricao": "Uma família descobre segredos obscuros após a morte da matriarca.",
-      "conteudo": "Luto, trauma e forças sobrenaturais se misturam em um dos filmes de terror mais impactantes da década.",
-      "categoria": "Terror, Drama, Suspense",
-      "autor": "Ari Aster",
-      "destaque": false,
-      "data": "2018-06-08",
-      "imagem_pincipal": "https://br.web.img3.acsta.net/pictures/18/06/14/13/11/1751062.jpg",
-      "imagens_complementares": [
-        {
-          "id": 1,
-          "src": "https://m.media-amazon.com/images/M/MV5BNmZhMTU1YjAtYzZhZi00YzJhLWFhMjktY2I4OTMxOGVjMmRhXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
-          "descricao": "Pôster assustador"
+
+        if (filmes.length === 0) {
+            lista.innerHTML = "<p class='text-warning text-center w-100'>Nenhum filme encontrado para a sua busca.</p>";
+            console.log("Nenhum filme encontrado após o filtro."); // DEBUG
+            return;
         }
-      ]
-    },
-    {
-      "id": 4,
-      "titulo": "As Ondas (Waves)",
-      "descricao": "A jornada emocional de uma família afro-americana após uma tragédia.",
-      "conteudo": "Pressão, luto e reconciliação moldam esta poderosa história de amor e perdão.",
-      "categoria": "Drama, Romance",
-      "autor": "Trey Edward Shults",
-      "destaque": false,
-      "data": "2019-11-15",
-      "imagem_pincipal": "https://m.media-amazon.com/images/M/MV5BNmFlNmQyYzctMzE3Ni00NjRkLWFiYzctYmZjMDllZTdkY2VjXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
-      "imagens_complementares": [
-        {
-          "id": 1,
-          "src": "https://images.squarespace-cdn.com/content/v1/5d2560df05fa7f00014d3b29/1576891400618-0118WXU6SUVLYSCT2RWH/Waves+1.png",
-          "descricao": "Cena de emoção intensa"
-        }
-      ]
-    },
-    {
-      "id": 5,
-      "titulo": "Life in a Year",
-      "descricao": "Um jovem descobre que sua namorada tem apenas um ano de vida.",
-      "conteudo": "Daryn tenta dar à sua amada Isabelle uma vida inteira em apenas 12 meses.",
-      "categoria": "Drama, Romance",
-      "autor": "Mitja Okorn",
-      "destaque": false,
-      "data": "2020-11-27",
-      "imagem_pincipal": "https://artworks.thetvdb.com/banners/v4/movie/41485/posters/657fefd50371d.jpg",
-      "imagens_complementares": [
-        {
-          "id": 1,
-          "src": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFkvkA1e-yQvxAppWbJeDesoe_dFnmTXQKow&s",
-          "descricao": "Pôster com Jaden Smith"
-        }
-      ]
-    },
-    {
-      "id": 6,
-      "titulo": "Até o Último Homem",
-      "descricao": "A verdadeira história de um soldado pacifista que salvou 75 homens na guerra.",
-      "conteudo": "Desmond Doss, um médico de combate que nunca portou armas, desafia o impossível.",
-      "categoria": "Drama, Guerra, Biografia",
-      "autor": "Mel Gibson",
-      "destaque": true,
-      "data": "2016-11-04",
-      "imagem_pincipal": "https://br.web.img3.acsta.net/pictures/16/11/21/15/29/457312.jpg",
-      "imagens_complementares": [
-        {
-          "id": 1,
-          "src": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSP-F5G57MldH5OkJwYRUff-crf8MFGsbt5rw&s",
-          "descricao": "Pôster oficial"
-        }
-      ]
-    },
-    {
-      "id": 7,
-      "titulo": "A Baleia",
-      "descricao": "Um professor de inglês recluso tenta se reconectar com sua filha adolescente em meio a uma batalha contra a obesidade severa.",
-      "conteudo": "Charlie, um homem que vive isolado e sofre de obesidade mórbida, busca redenção ao se reaproximar de sua filha distante enquanto enfrenta problemas de saúde e emocionais.",
-      "categoria": "Drama",
-      "autor": "Luca Guadagnino",
-      "destaque": false,
-      "data": "2017-11-24",
-      "imagem_pincipal": "https://upload.wikimedia.org/wikipedia/pt/f/f3/TheWhalePoster.jpg",
-      "imagens_complementares": [
-        {
-          "id": 1,
-          "src": "https://img.youtube.com/vi/6wcViJgnU_s/mqdefault.jpg",
-          "descricao": "Pôster do filme"
-        }
-      ]
-    },
-    {
-      "id": 8,
-      "titulo": "Looking for Alaska",
-      "descricao": "Um jovem entra em um colégio interno em busca de um 'Grande Talvez' e encontra amizades intensas e um amor que mudará sua vida.",
-      "conteudo": "Miles Halter, fascinado por últimas palavras e buscando sentido na vida, vai para o internato Culver Creek, onde conhece Alaska Young. A relação entre eles leva a descobertas profundas, amor e tragédia.",
-      "categoria": "Drama, Romance",
-      "autor": "Josh Schwartz (baseado no livro de John Green)",
-      "destaque": false,
-      "data": "2019-10-18",
-      "imagem_pincipal": "https://br.web.img3.acsta.net/pictures/19/08/28/16/25/3970487.jpg",
-      "imagens_complementares": [
-        {
-          "id": 1,
-          "src": "https://lh3.googleusercontent.com/proxy/StsNISqDy275ATyQaj3Da9Riv43GD-gN1oRjwSPUaRtj8ydqh3L6qOOXCeWEnB7p1lWkU-6aWTaEa8tTGrzeGUu63lRd5yWCs4_gMesnF9-0O4rp67w",
-          "descricao": "Imagem promocional"
-        }
-      ]
-    },
-    {
-      "id": 9,
-      "titulo": "Little Women",
-      "descricao": "Quatro irmãs enfrentam desafios e descobertas enquanto crescem durante a Guerra Civil Americana.",
-      "conteudo": "Baseado no clássico de Louisa May Alcott, o filme segue Jo, Meg, Beth e Amy March enquanto elas exploram a vida, o amor e a ambição. Timothée Chalamet interpreta Laurie, o vizinho encantador que desenvolve uma relação complexa com as irmãs.",
-      "categoria": "Drama, Romance, Historico",
-      "autor": "Greta Gerwig",
-      "destaque": false,
-      "data": "2019-12-25",
-      "imagem_pincipal": "https://pbs.twimg.com/media/EIDYAP2VUAA2Gbx.jpg",
-      "imagens_complementares": [
-        {
-          "id": 1,
-          "src": "https://printedoriginals.com/cdn/shop/products/little-women-794053_1024x1024@2x.jpg?v=1619442166",
-          "descricao": "Poster Alternativo"
-        }
-      ]
+
+        filmes.forEach(filme => {
+            const col = document.createElement("div");
+            col.className = "movie-card-wrapper mb-4";
+
+            col.innerHTML = `
+                <div class="card h-100 shadow">
+                    <img src="${filme.imagem_pincipal}" class="card-img-top" alt="${filme.titulo}">
+                    <div class="card-body">
+                        <h5 class="card-title">${filme.titulo}</h5>
+                        <p class="card-text">${filme.descricao}</p>
+                        <span class="favorite-icon" data-movie-id="${filme.id}" data-is-favorito="${filme.favorito ? 'true' : 'false'}">
+                            ${filme.favorito ? '★' : '☆'} </span>
+                        <button class="btn btn-danger ver-detalhes" data-filme-id="${filme.id}">Ver detalhes</button>
+                    </div>
+                </div>
+            `;
+            lista.appendChild(col);
+        });
+
+        // Adiciona event listeners para os botões "Ver detalhes"
+        document.querySelectorAll('.ver-detalhes').forEach(button => {
+            button.addEventListener('click', (event) => {
+                const filmeId = event.target.dataset.filmeId;
+                console.log(`Botão 'Ver detalhes' clicado para o filme ID: ${filmeId}`);
+                verDetalhes(parseInt(filmeId));
+            });
+        });
+
+        // NOVO: Adiciona event listeners para os ícones de favorito
+        document.querySelectorAll('.favorite-icon').forEach(icon => {
+            icon.addEventListener('click', async (event) => {
+                const movieId = parseInt(event.target.dataset.movieId);
+                const currentStatus = event.target.dataset.isFavorito === 'true';
+                await toggleFavorite(movieId, currentStatus, event.target); // Passa o elemento para atualizar sua UI
+            });
+        });
+
+        console.log(`Filmes carregados e listeners anexados.`);
+
+    } catch (error) {
+        console.error("Erro ao carregar filmes:", error);
+        lista.innerHTML = "<p class='text-danger text-center w-100'>Não foi possível carregar os filmes no momento. Verifique se o JSON Server está rodando.</p>";
     }
-  ]
-};
-
-
-function carregarFilmes() {
-  const container = document.getElementById('filmesLista');
-  container.innerHTML = ''; // limpa conteúdo anterior (boa prática)
-
-  filmesFamosos.filmes_famosos.forEach(filme => {
-    const col = document.createElement('div');
-    col.className = 'col-md-4';
-
-    const card = document.createElement('div');
-    card.className = 'card bg-dark text-white mb-4';
-    card.style.width = '100%';
-
-    card.innerHTML = `
-      <img src="${filme.imagem_pincipal}" class="card-img-top" alt="${filme.titulo}">
-      <div class="card-body">
-        <h5 class="card-title">${filme.titulo}</h5>
-        <p class="card-text">${filme.descricao}</p>
-        <button class="btn btn-danger ver-detalhes">Ver Detalhes</button>
-      </div>
-    `;
-
-    card.querySelector('.ver-detalhes').addEventListener('click', () => {
-      localStorage.setItem('filmeSelecionado', JSON.stringify(filme));
-      window.location.href = 'detalhes.html';
-    });
-
-    col.appendChild(card);
-    container.appendChild(col);
-  });
 }
+
+// NOVA FUNÇÃO PARA ALTERNAR FAVORITO
+async function toggleFavorite(movieId, currentStatus, iconElement) {
+    const newStatus = !currentStatus;
+    try {
+        const response = await fetch(`http://localhost:3000/filmes/${movieId}`, {
+            method: 'PATCH', // Usamos PATCH para atualizar apenas o campo 'favorito'
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ favorito: newStatus })
+        });
+
+        if (!response.ok) {
+            throw new Error(`Erro ao atualizar favorito! Status: ${response.status}`);
+        }
+
+        // Atualiza a UI do ícone imediatamente após a atualização bem-sucedida
+        iconElement.dataset.isFavorito = newStatus ? 'true' : 'false';
+        iconElement.textContent = newStatus ? '★' : '☆'; // Altera a estrela
+        // A cor será definida pelo CSS (styles.css) baseado no data-is-favorito
+
+        console.log(`Filme ${movieId} marcado como favorito: ${newStatus}`);
+
+    } catch (error) {
+        console.error("Erro ao marcar como favorito:", error);
+        alert("Erro ao marcar/desmarcar favorito. Verifique o console.");
+    }
+}
+
+
+function verDetalhes(id) {
+    console.log(`Função verDetalhes chamada para o ID: ${id}`);
+    localStorage.setItem("filmeSelecionadoId", id);
+    console.log(`ID ${id} salvo em localStorage. Tentando navegar para detalhes.html...`);
+    window.location.href = "detalhes.html";
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    console.log("DOMContentLoded disparado. Tentando configurar o formulário de busca.");
+
+    const searchForm = document.getElementById('searchForm');
+    const searchInput = document.getElementById('searchInput');
+
+    if (!searchForm) {
+        console.error("Erro: Formulário de busca (ID 'searchForm') não encontrado no HTML.");
+    }
+    if (!searchInput) {
+        console.error("Erro: Campo de busca (ID 'searchInput') não encontrado no HTML.");
+    }
+
+    if (searchForm && searchInput) {
+        console.log("Formulário de busca e campo de input encontrados. Anexando listener.");
+        searchForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+            const searchTerm = searchInput.value.trim();
+            console.log(`Formulário de busca submetido. Termo de busca: "${searchTerm}"`);
+            carregarFilmes(searchTerm); // Chama a função carregarFilmes com o termo de busca
+        });
+    } else {
+        console.error("Não foi possível anexar o listener do formulário de busca. Verifique os IDs no HTML.");
+    }
+});

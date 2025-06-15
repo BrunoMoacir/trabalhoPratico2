@@ -17,10 +17,8 @@
             border-radius: 8px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
         }
-        /* Estilo para a fonte do gráfico (se necessário, para melhor visibilidade) */
-        canvas {
-            color: white; /* Tentativa de mudar a cor da fonte, mas Chart.js usa suas próprias configs */
-        }
+        /* Estilo para a fonte do gráfico (Chart.js usa suas próprias configs de cores de fonte) */
+        /* Para mudar a cor do texto do gráfico (legendas, títulos), faça nas 'options' do Chart.js */
     </style>
 </head>
 <body class="bg-dark text-white">
@@ -38,7 +36,7 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="home.html">Home</a>
+                            <a class="nav-link" href="index.html">Home</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="novos.html">Novos</a>
@@ -48,6 +46,9 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="grafico_generos.html">Gráfico de Gêneros</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="cadastro_filmes.html">Cadastrar Filme</a>
                         </li>
                     </ul>
                     <form class="d-flex">
@@ -63,6 +64,7 @@
         <h1 class="text-center mb-4">Distribuição de Filmes por Gênero</h1>
         <div class="chart-container">
             <canvas id="generoChart"></canvas>
+            <p id="chartError" class="text-danger text-center mt-3" style="display:none;">Não foi possível carregar os dados para o gráfico. Verifique se o JSON Server está rodando.</p>
         </div>
     </main>
 
