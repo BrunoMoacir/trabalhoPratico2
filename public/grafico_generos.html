@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gráfico de Gêneros</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .chart-container {
+            width: 80%; /* Ajuste a largura do container do gráfico */
+            max-width: 700px; /* Largura máxima para o gráfico */
+            margin: 50px auto; /* Centraliza e adiciona margem */
+            background-color: #1e1e1e; /* Fundo escuro para combinar com o tema */
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+        /* Estilo para a fonte do gráfico (se necessário, para melhor visibilidade) */
+        canvas {
+            color: white; /* Tentativa de mudar a cor da fonte, mas Chart.js usa suas próprias configs */
+        }
+    </style>
+</head>
+<body class="bg-dark text-white">
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="index.html">
+                    <img src="./bm_cheflix-removebg-preview (1).png" alt="BMCHEFLIX" width="150" />
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="home.html">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="novos.html">Novos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="populares.html">Populares</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="grafico_generos.html">Gráfico de Gêneros</a>
+                        </li>
+                    </ul>
+                    <form class="d-flex">
+                        <input class="form-control me-2" type="search" placeholder="Buscar filme" />
+                        <button class="btn btn-danger" type="submit">Confirmar</button>
+                    </form>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container py-5">
+        <h1 class="text-center mb-4">Distribuição de Filmes por Gênero</h1>
+        <div class="chart-container">
+            <canvas id="generoChart"></canvas>
+        </div>
+    </main>
+
+    <footer class="custom-footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h4>Autoria</h4>
+                <p>👤 Aluno: Bruno Pais Moacir</p>
+                <p>💻 Curso: Ciência da Computação</p>
+                <p>🕒 Turma: Manhã</p>
+            </div>
+            <div class="footer-section">
+                <h4>Redes Sociais:</h4>
+                <div class="redes-sociais">
+                    <a href="#"><img src="https://i.pinimg.com/736x/70/f9/36/70f936294a1f0f3949a9205df9340d5e.jpg" alt="Facebook"></a>
+                    <a href="#"><img src="https://img.cdndsgni.com/preview/10000147.jpg" alt="Instagram"></a>
+                    <a href="#"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Logo_of_Twitter.svg/1245px-Logo_of_Twitter.svg.png" alt="Twitter"></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="app.js"></script> <script src="grafico_generos.js"></script>
+</body>
+</html>

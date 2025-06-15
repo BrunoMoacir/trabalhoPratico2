@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SiteFilmes</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+
+<body onload="carregarFilmes()">
+  <script>
+    async function carregarFilmes() {
+      // Revertido para a lógica original de `app.js` (dados estáticos) ou ajuste para `fetch` se o backend estivesse ativo.
+      // Mantendo o comportamento de usar 'filmesFamosos' de app.js para consistência com o que foi fornecido.
+      const filmes = filmesFamosos.filmes_famosos;
+      const lista = document.getElementById("filmesLista");
+
+      // Limpar lista existente antes de adicionar
+      lista.innerHTML = '';
+
+      filmes.forEach(filme => {
+        const col = document.createElement("div");
+        col.className = "col-md-4 mb-4";
+
+        col.innerHTML = `
+          <div class="card h-100 shadow">
+            <img src="${filme.imagem_pincipal}" class="card-img-top" alt="${filme.titulo}">
+            <div class="card-body">
+              <h5 class="card-title">${filme.titulo}</h5>
+              <p class="card-text">${filme.descricao}</p>
+              <button class="btn btn-danger" onclick="verDetalhes(${filme.id})">Ver detalhes</button>
+            </div>
+          </div>
+        `;
+        lista.appendChild(col);
+      });
+    }
+
+    function verDetalhes(id) {
+      // Revertido para a lógica original de `app.js` (dados estáticos)
+      const filme = filmesFamosos.filmes_famosos.find(f => f.id === id);
+      localStorage.setItem("filmeSelecionado", JSON.stringify(filme));
+      window.location.href = "detalhes.html";
+    }
+  </script>
+
+  <div>
+    <header>
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="index.html">
+            <img src="./bm_cheflix-removebg-preview (1).png" alt="BMCHEFLIX" width="150" />
+          </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+              <li class="nav-item">
+                <a class="nav-link" href="home.html">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="novos.html">Novos</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="populares.html">Populares</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="grafico_generos.html">Gráfico de Gêneros</a>
+              </li>
+            </ul>
+            <form class="d-flex">
+              <input class="form-control me-2" type="search" placeholder="Buscar filme" />
+              <button class="btn btn-danger" type="submit">Confirmar</button>
+            </form>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <div class="container d-flex justify-content-center">
+        <div id="carouselExampleCaptions" class="carousel slide mb-5" data-bs-ride="carousel"
+          style="max-width: 1600px; width: 100%">
+          <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"></button>
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"></button>
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"></button>
+          </div>
+
+          <div class="carousel-inner rounded shadow">
+            <div class="carousel-item active">
+              <img
+                src="https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/753690118590559.608bfd3ecffc9.png"
+                class="d-block w-100" alt="Normal-People" />
+              <div class="carousel-caption d-none d-md-block">
+                <h5>Normal People</h5>
+                <p>Romance, Drama</p>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <img
+                src="https://images.squarespace-cdn.com/content/v1/5d2560df05fa7f00014d3b29/1576891400618-0118WXU6SUVLYSCT2RWH/Waves+1.png"
+                class="d-block w-100" alt="waves" />
+              <div class="carousel-caption d-none d-md-block">
+                <h5>Waves</h5>
+                <p>Romance, Drama</p>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <img
+                src="https://m.media-amazon.com/images/M/MV5BY2FhZGE3NmEtNWJjOC00NDI1LWFhMTQtMjcxNmQzZmEwNGIzXkEyXkFqcGc@._V1_.jpg"
+                class="d-block w-100" alt="Lobo de Wall Street" />
+              <div class="carousel-caption d-none d-md-block">
+                <h5>Nosferatu</h5>
+                <p>Terror, Mistério</p>
+              </div>
+            </div>
+          </div>
+
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
+            data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"
+            data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
+          </button>
+        </div>
+      </div>
+
+      <div class="container">
+        <div class="row" id="filmesLista"></div>
+      </div>
+    </main>
+
+    <footer class="custom-footer">
+      <div class="footer-container">
+        <div class="footer-section">
+          <h4>Autoria</h4>
+          <p>👤 Aluno: Bruno Pais Moacir</p>
+          <p>💻 Curso: Ciência da Computação</p>
+          <p>🕒 Turma: Manhã</p>
+        </div>
+
+        <div class="footer-section">
+          <h4>Redes Sociais:</h4>
+          <div class="redes-sociais">
+            <a href="#"><img src="https://i.pinimg.com/736x/70/f9/36/70f936294a1f0f3949a9205df9340d5e.jpg" alt="Facebook"></a>
+            <a href="#"><img src="https://img.cdndsgni.com/preview/10000147.jpg" alt="Instagram"></a>
+            <a href="#"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Logo_of_Twitter.svg/1245px-Logo_of_Twitter.svg.png" alt="Twitter"></a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="app.js"></script>
+  </div>
+</body>
+
+</html>

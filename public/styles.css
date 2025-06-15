@@ -1,0 +1,236 @@
+/* Reset e configurações gerais */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    color: white;
+}
+
+body {
+    background: linear-gradient(135deg, #000000, #1a1a1a);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    background-size: cover;
+    backdrop-filter: blur(5px);
+    padding-top: 70px;
+}
+
+/* Cabeçalho e menu */
+header {
+    width: 100%;
+    background-color: rgba(30, 30, 30, 0.9);
+    padding: 20px 0;
+    text-align: center;
+    box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.2);
+    z-index: 1000;
+    position: fixed;
+    top: 0;
+}
+.custom-footer {
+    background-color: #1e1e1e;
+    color: white;
+    padding: 40px 20px;
+    font-family: 'Poppins', sans-serif;
+    margin-top: 50px;
+    box-shadow: 0px -4px 10px rgba(255, 255, 255, 0.2);
+  }
+  
+  .footer-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: auto;
+    gap: 30px;
+  }
+  
+  .footer-section {
+    flex: 1;
+    min-width: 250px;
+  }
+  
+  .footer-section h4 {
+    border-bottom: 2px solid white;
+    padding-bottom: 8px;
+    margin-bottom: 15px;
+  }
+  
+  .linha-cinza {
+    height: 12px;
+    background-color: #b3b3b3;
+    border-radius: 4px;
+    margin: 8px 0;
+  }
+  
+  .redes-sociais a img {
+    width: 30px;
+    margin-right: 10px;
+    transition: transform 0.3s;
+  }
+  
+  .redes-sociais a img:hover {
+    transform: scale(1.1);
+  }
+  
+  /* Responsivo */
+  @media (max-width: 768px) {
+    .footer-container {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .footer-section {
+      text-align: center;
+    }
+  
+    .redes-sociais a img {
+      margin: 10px;
+    }
+  }
+
+.menuprincipal ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+}
+
+.menuprincipal ul li a {
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 12px 18px;
+    border-radius: 5px;
+    background: rgba(255, 0, 0, 0.8);
+    transition: 0.3s;
+    text-shadow: 0px 0px 10px rgba(255, 0, 0, 0.8);
+}
+
+.menuprincipal ul li a:hover {
+    background: rgba(255, 0, 0, 1);
+    box-shadow: 0px 0px 10px rgba(255, 0, 0, 0.7);
+}
+
+/* Área principal (Filmes) */
+main {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 25px;
+    padding: 40px 0;
+}
+.filmesLista{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 25px;
+    padding: 40px 0;
+    width: 1600px;
+}
+
+
+
+.carousel-caption {
+    position: static !important; /* Tira o absolute */
+    background-color: rgba(0, 0, 0, 0.5); 
+    padding: 1rem;
+    text-align: center;
+    color: white;
+  }
+  .carousel-inner {
+    height: auto !important;
+  }
+article img {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    transition: 0.3s;
+}
+
+article img:hover {
+    filter: brightness(70%);
+}
+article:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 6px 15px rgba(255, 255, 255, 0.3);
+    
+}
+article p {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+
+
+
+footer {
+    width: 100%;
+    background-color: rgba(30, 30, 30, 0.9);
+    text-align: center;
+    padding: 15px 0;
+    margin-top: 20px;
+    box-shadow: 0px -4px 10px rgba(255, 255, 255, 0.2);
+}
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 20px;
+  }
+  .navbar-dark .navbar-nav .nav-link {
+    color: white !important;
+  }
+  
+  @media (max-width: 768px) {
+    .filme {
+        width: 100%;
+        text-align: center;
+    }
+
+    .filme img {
+        width: 80%;
+    }
+    body {
+        padding-top: 100px; /* Garante que o conteúdo não fique atrás do header */
+      }
+    
+      .navbar-nav {
+        text-align: center;
+      }
+    
+      .navbar-nav .nav-item {
+        margin-bottom: 10px;
+      }
+    }
+}
+
+  @media (max-width: 480px) {
+    .grid-container {
+      grid-template-columns: 1fr; 
+    }
+  }
+  .carousel img {
+    width: 100%;
+    height: 300px; 
+    object-fit: cover;
+  }
+  .carousel {
+    display: flex;
+    overflow-x: auto;
+    gap: 20px;
+    padding: 20px;
+  }
+  .carousel-item img {
+    object-fit: cover;
+    height: 500px; 
+}
+
+
+  .carousel-inner {
+    height: 500px; 
+  }
+  
+  

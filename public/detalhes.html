@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Detalhes do Filme</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body class="bg-dark text-white">
+  <div class="container py-5">
+    <a href="index.html" class="btn btn-danger mb-4">← Voltar</a>
+    <div id="detalhes-filme" class="bg-secondary p-4 rounded shadow-sm"></div>
+  </div>
+
+ <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const filmeJSON = localStorage.getItem('filmeSelecionado');
+    const container = document.getElementById('detalhes-filme');
+
+    if (!filmeJSON) {
+      container.innerHTML = "<p>ID do filme não encontrado.</p>";
+      return;
+    }
+
+    const filme = JSON.parse(filmeJSON);
+
+    container.innerHTML = `
+      <img src="${filme.imagem_pincipal}" alt="${filme.titulo}" class="img-fluid rounded mb-3">
+      <div class="filme-info">
+        <h2>${filme.titulo}</h2>
+        <p><strong>Descrição:</strong> <input class="form-control" id="descricao" value="${filme.descricao}"></p>
+        <p><strong>Conteúdo:</strong> <input class="form-control" id="conteudo" value="${filme.conteudo}"></p>
+        <p><strong>Categoria:</strong> <input class="form-control" id="categoria" value="${filme.categoria}"></p>
+        <p><strong>Autor:</strong> <input class="form-control" id="autor" value="${filme.autor}"></p>
+        <p><strong>Data:</strong> <input class="form-control" id="data" value="${filme.data}"></p>
+        <button class="btn btn-success mt-3" onclick="atualizarFilme(${filme.id})">Atualizar</button>
+        <button class="btn btn-outline-danger mt-3 ms-2" onclick="removerFilme(${filme.id})">Remover</button>
+      </div>
+    `;
+  });
+
+  function atualizarFilme(id) {
+    const descricao = document.getElementById("descricao").value;
+    const conteudo = document.getElementById("conteudo").value;
+    const categoria = document.getElementById("categoria").value;
+    const autor = document.getElementById("autor").value;
+    const data = document.getElementById("data").value;
+
+    fetch(`http://localhost:3000/filmes/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ descricao, conteudo, categoria, autor, data, imagem_pincipal: "" })
+    }).then(() => {
+      alert("Filme atualizado!");
+      location.reload();
+    });
+  }
+
+  function removerFilme(id) {
+    if (confirm("Deseja realmente excluir este filme?")) {
+      fetch(`http://localhost:3000/filmes/${id}`, {
+        method: "DELETE"
+      }).then(() => {
+        alert("Filme removido.");
+        window.location.href = "index.html";
+      });
+    }
+  }
+</script>
+</body>
+</html>
